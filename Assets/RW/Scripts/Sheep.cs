@@ -22,10 +22,11 @@ public class Sheep : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
+    // Update is called once per frame and makes the sheep move forwards
     void Update()
     {
-        transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+        //This increases the run speed by .1 every second
+        transform.Translate(Vector3.forward * (runSpeed + (time.fixedTime / 10)) * Time.deltaTime);
     }
 
     private void HitByHay()
