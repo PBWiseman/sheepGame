@@ -16,6 +16,7 @@ public class GameStateManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        GameSettings.timeSinceStart = Time.fixedTime;
     }
 
     // Update is called once per frame

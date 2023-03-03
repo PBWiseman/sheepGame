@@ -22,7 +22,7 @@ public class SheepSpawner : MonoBehaviour
         {
             SpawnSheep();
             //This will reduce the time between spawning sheep by .01 every second
-            yield return new WaitForSeconds(timeBetweenSpawns - (Time.fixedTime / 100));
+            yield return new WaitForSeconds(timeBetweenSpawns - ((Time.fixedTime - GameSettings.timeSinceStart) / 100));
         }
     }
     private void SpawnSheep()
