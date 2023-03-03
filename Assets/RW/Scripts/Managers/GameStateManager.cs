@@ -43,7 +43,14 @@ public class GameStateManager : MonoBehaviour
         UIManager.Instance.UpdateSheepDropped();
         if (sheepDropped == sheepDroppedBeforeGameOver)
         {
+            HighScoreSetting();
             GameOver();
+        }
+    }
+    public void HighScoreSetting()
+    {
+        if (sheepSaved > GameSettings.highScore){
+            GameSettings.highScore = sheepSaved;
         }
     }
 }

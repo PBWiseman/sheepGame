@@ -26,7 +26,7 @@ public class Sheep : MonoBehaviour
     void Update()
     {
         //This increases the run speed by .1 every second
-        transform.Translate(Vector3.forward * (runSpeed + (time.fixedTime / 10)) * Time.deltaTime);
+        transform.Translate(Vector3.forward * (runSpeed + (Time.fixedTime / 100)) * Time.deltaTime);
     }
 
     private void HitByHay()
