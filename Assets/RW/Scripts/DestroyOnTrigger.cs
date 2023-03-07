@@ -1,3 +1,4 @@
+//This script will delete the object when it comes into contact with a collider with the specified tag
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

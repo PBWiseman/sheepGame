@@ -1,3 +1,4 @@
+//Controls the instances of sheep
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,10 @@ public class Sheep : MonoBehaviour
     private Collider myCollider;
     private Rigidbody myRigidbody;
     private SheepSpawner sheepSpawner;
+    private float currentTime;
     public float heartOffset;
     public GameObject heartPrefab;
+    public float speedIncrease;
 
     // Start is called before the first frame update
     void Start()
@@ -26,23 +29,11 @@ public class Sheep : MonoBehaviour
     void Update()
     {
         //This increases the run speed by .1 every second
-        transform.Translate(Vector3.forward * (runSpeed + ((Time.fixedTime - GameSettings.timeSinceStart) / 100)) * Time.deltaTime);
+        currentTime = Time.fixedTime - GameSettings.startTime;
+        transform.Translate(Vector3.forward * (runSpeed + (currentTime / speedIncrease)) * Time.deltaTime);
     }
-
-    private void HitByHay()
-    {
-        sheepSpawner.RemoveSheepFromList(gameObject);
-        SoundManager.Instance.PlaySheepHitClip();
-        GameStateManager.Instance.SavedSheep();
-        hitByHay = true;
-        runSpeed = 0;
-        Destroy(gameObject, gotHayDestroyDelay);
-        Instantiate(heartPrefab, transform.position + new Vector3(0, heartOffset, 0), Quaternion.identity);
-        TweenScale tweenScale = gameObject.AddComponent<TweenScale>();
-        tweenScale.targetScale = 0;
-        tweenScale.timeToReachTarget = gotHayDestroyDelay;
-    }
-
+    
+    //On triggers checks if it is hit by a projectile or the end screen collision box
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Hay") && !hitByHay)
@@ -55,6 +46,29 @@ public class Sheep : MonoBehaviour
             Drop();
         }
     }
+
+    //When hit by a projectile this stops the sheep, plays a sound, and deletes object after a delay
+    private void HitByHay()
+    {
+        sheepSpawner.RemoveSheepFromList(gameObject);
+        SoundManager.Instance.PlaySheepHitClip();
+        GameStateManager.Instance.SavedSheep();
+        hitByHay = true;
+        runSpeed = 0;
+        Destroy(gameObject, gotHayDestroyDelay);
+        Instantiate(heartPrefab, transform.position + new Vector3(0, heartOffset, 0), Quaternion.identity);
+        Shrink();
+    }
+
+    //Shrinks sheep when hit
+    private void Shrink()
+    {
+        TweenScale tweenScale = gameObject.AddComponent<TweenScale>();
+        tweenScale.targetScale = 0;
+        tweenScale.timeToReachTarget = gotHayDestroyDelay;
+    }
+
+    //Deletes sheep when it goes beyond play field
     private void Drop()
     {
         sheepSpawner.RemoveSheepFromList(gameObject);
@@ -65,6 +79,8 @@ public class Sheep : MonoBehaviour
         myCollider.isTrigger = false;
         Destroy(gameObject, dropDestroyDelay);
     }
+
+    //Sets sheep spawner
     public void SetSpawner(SheepSpawner spawner)
     {
         sheepSpawner = spawner;

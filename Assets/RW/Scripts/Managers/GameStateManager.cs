@@ -1,3 +1,4 @@
+//Runs game state tasks.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,12 @@ public class GameStateManager : MonoBehaviour
     public int sheepDropped;
     public int sheepDroppedBeforeGameOver;
     public SheepSpawner sheepSpawner;
-    // Start is called before the first frame update
+
+    // Awake is called before start
     void Awake()
     {
         Instance = this;
-        GameSettings.timeSinceStart = Time.fixedTime;
+        GameSettings.startTime = Time.fixedTime;
     }
 
     // Update is called once per frame
@@ -27,17 +29,23 @@ public class GameStateManager : MonoBehaviour
             SceneManager.LoadScene("Title");
         }
     }
+
+    //Destroys all sheep and ends game
     public void GameOver()
     {
         sheepSpawner.canSpawn = false;
         sheepSpawner.DestroyAllSheep();
         UIManager.Instance.ShowGameOverWindow();
     }
+
+    //Counts saved sheep
     public void SavedSheep()
     {
         sheepSaved++;
         UIManager.Instance.UpdateSheepSaved();
     }
+    
+    //Counts dropped sheep
     public void DroppedSheep()
     {
         sheepDropped++;
@@ -48,6 +56,8 @@ public class GameStateManager : MonoBehaviour
             GameOver();
         }
     }
+
+    //Updates high score at end of game
     public void HighScoreSetting()
     {
         if (sheepSaved > GameSettings.highScore){

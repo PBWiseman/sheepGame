@@ -1,3 +1,4 @@
+//This script destroys the specified game object after a certain amount of time
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,5 @@ public class DestroyTimer : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, timeToDestroy);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

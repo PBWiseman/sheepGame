@@ -1,3 +1,4 @@
+//Switches what colour model hay machine uses
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +11,13 @@ public class HayMachineSwitcher : MonoBehaviour, IPointerClickHandler
     public GameObject yellowHayMachine;
     public GameObject redHayMachine;
     private int selectedIndex;
-
+    
+    //On click swaps active hay machine model
     public void OnPointerClick(PointerEventData eventData)
     {
         selectedIndex++;
         selectedIndex %= Enum.GetValues(typeof(HayMachineColor)).Length;
-
         GameSettings.hayMachineColor = (HayMachineColor)selectedIndex;
-
-        //5
         switch (GameSettings.hayMachineColor)
         {
             case HayMachineColor.Blue:

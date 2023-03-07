@@ -1,3 +1,4 @@
+//This script is for controlling the hay machine
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,13 @@ public class HayMachine : MonoBehaviour
     public GameObject blueModelPrefab;
     public GameObject yellowModelPrefab;
     public GameObject redModelPrefab;
-    
     // Start is called before the first frame update
     void Start()
     {
         LoadModel();
     }
 
+    //Destroys the model and replaces it with the colour selected on the main screen
     private void LoadModel()
     {
         Destroy(modelParent.GetChild(0).gameObject);
@@ -46,10 +47,10 @@ public class HayMachine : MonoBehaviour
         UpdateShooting();
     }
 
+    //Updates movement based on user input
     private void UpdateMovement()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal"); 
-
         if (horizontalInput < 0 && transform.position.x > -horizontalBoundary) 
         {
             transform.Translate(transform.right * -movementSpeed * Time.deltaTime);
@@ -59,6 +60,8 @@ public class HayMachine : MonoBehaviour
             transform.Translate(transform.right * movementSpeed * Time.deltaTime);
         }
     }
+
+    //Triggers shooting and a timer lockout based on user input
     private void UpdateShooting()
     {
         shootTimer -= Time.deltaTime; 
@@ -69,6 +72,8 @@ public class HayMachine : MonoBehaviour
             ShootHay(); 
         }
     }
+
+    //Shoots projectile and plays sound
     private void ShootHay()
     {
         Instantiate(hayBalePrefab, haySpawnpoint.position, Quaternion.identity);
